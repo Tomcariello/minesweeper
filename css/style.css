@@ -1,0 +1,68 @@
+#container {
+    width: 100%;
+    margin: auto;
+}
+
+#gameboard-header {
+    width: 500px;
+    margin: auto;
+    color: #222222;
+    padding: 10px;
+}
+
+#title {
+    margin: auto;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+#gameboard-header > div {
+    margin: auto;
+    text-align: center;
+}
+
+button#newGame {
+    background-color: yellow;
+    margin: auto;
+    text-align: center;
+}
+
+#gameboard {
+    width: 400px;
+    height: 400px;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.node {
+    height: 38px;
+    width: 38px;
+    background-color: #eeeeee;
+    border-left: 1px solid #dddddd ;
+    border-top: 1px solid #cccccc;
+    border-right: 1px solid #bbbbbb;
+    border-bottom: 1px solid #aaaaaa;
+}
+
+/* Colors for the gameboard numbers */
+.bombcount-1 {
+    color: blue;
+    font-weight: bold;
+    text-align: center;
+}
+.bombcount-2 {
+    color: orange;
+    font-weight: bold;
+    text-align: center;
+}
+.bombcount-3 {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
+.bombcount-4 {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}

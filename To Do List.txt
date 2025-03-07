@@ -1,0 +1,12 @@
+Minesweeper To Do List:
+
+- Handle right click
+- Wire up new game button
+- Add bomb emojis
+- Center text inside nodes
+- Improve node visuals
+- Add statistics box (bombs left)
+- Obfuscate bomb/not bomb in DOM
+- Make player selectable:
+    - Number of bombs
+    - Board size
