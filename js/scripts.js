@@ -1,12 +1,31 @@
 let numBombs = 20;
 let gameBoard = document.getElementById('gameboard')
+let newGameButton = document.getElementById('newGame')
 const nodes = []
 let boardWidth = 10
 let boardHeight = 10
+let flagCount = 0
+let isGameActive = true
 
 window.onload = function() {
-    console.log('Page loaded')
     createNewGame(numBombs)
+}
+
+/**
+ * Generate a new game
+ * @param {event} click event
+ */
+newGameButton.addEventListener("click", function(event) {
+    createNewGame(numBombs)
+});
+
+/**
+ * Clear all divs from the gameBoard
+ */
+const clearGameBoard = function() {
+    while (gameBoard.firstChild) {
+        gameBoard.removeChild(gameBoard.firstChild);
+    }
 }
 
 /**
@@ -14,6 +33,8 @@ window.onload = function() {
  * @param {Integer} numBombs
  */
 const createNewGame = function(numBombs) {
+    isGameActive = true
+    clearGameBoard()
     const boardSize = boardWidth * boardHeight
     const bombLocations = getBombLocations(boardSize, numBombs)
     for (let i=0; i < boardSize; i++ ) {
@@ -26,13 +47,17 @@ const createNewGame = function(numBombs) {
 
         // Left-click (normal click)
         thisNode.addEventListener("click", function(event) {
-            processLeftClick(parseInt(this.id))
+            if (isGameActive) {
+                processLeftClick(parseInt(this.id))
+            }
         });
-
+        
         // Right-click (context menu)
         thisNode.addEventListener("contextmenu", function(event) {
             event.preventDefault(); // Prevents the default right-click menu
-            console.log("Right click detected!");
+            if (isGameActive) {
+                processRightClick(parseInt(this.id))
+            }
         });
 
         nodes.push(thisNode)
@@ -73,11 +98,12 @@ const getRandomBombLocation = function(boardSize, bombLocations) {
 const processLeftClick = function(nodeId) {
     const thisNode = document.getElementById(nodeId)
     if (thisNode.classList.contains('checked')) return
+    if (thisNode.classList.contains('flag')) return
     thisNode.classList.add('checked')
 
     // Check clicked node for bomb
     if (thisNode.classList.contains('bomb')) {
-        youLoseGame()
+        youLoseGame(thisNode)
         return
     }
 
@@ -92,6 +118,7 @@ const processLeftClick = function(nodeId) {
     })
 
     if (numBombs == 0) {
+        thisNode.classList.add('blank')
         neighbors.forEach(neighbor => {
             processLeftClick(neighbor)
         })
@@ -100,6 +127,25 @@ const processLeftClick = function(nodeId) {
         thisNode.textContent = numBombs
     }
 }
+
+const processRightClick = function(nodeId) {
+    const thisNode = document.getElementById(nodeId)
+    if (thisNode.classList.contains('checked')) return
+    
+    
+    // If already has flag, remove the flag
+    if (thisNode.classList.contains('flag')) {
+        flagCount--
+        thisNode.textContent = ''
+        thisNode.classList.remove('flag')
+        return
+    }
+    
+    thisNode.classList.add('flag')
+    thisNode.textContent = '🚩'
+    flagCount++
+}
+
 
 /**
  * Identify the nodes that the given nodeID is connected to
@@ -146,16 +192,15 @@ const getNeighbors = function(nodeId) {
 
 /**
  * End game
- * @param {Integer} boardSize
- * @param {Integer} bombLocations
+ * @param {Object} thisNode - The node that was clicked incorrectly
  */
-const youLoseGame = function() {
-    console.log('You lose')
-    // expose bombs!
+const youLoseGame = function(thisNode) {
+    thisNode.classList.add('explode')
+    isGameActive = false
     const nodes = document.getElementsByClassName('node')
     for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].classList.contains('bomb')) {
-            nodes[i].textContent = "B"
+        if (nodes[i].classList.contains('bomb') && !nodes[i].classList.contains('flag')) {
+            nodes[i].textContent = '💣'
         }
     }
 }

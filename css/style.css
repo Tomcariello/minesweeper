@@ -25,6 +25,7 @@ button#newGame {
     background-color: yellow;
     margin: auto;
     text-align: center;
+    height: 35px;
 }
 
 #gameboard {
@@ -38,31 +39,45 @@ button#newGame {
 .node {
     height: 38px;
     width: 38px;
-    background-color: #eeeeee;
+    background-color: #d0d0d0;
     border-left: 1px solid #dddddd ;
     border-top: 1px solid #cccccc;
     border-right: 1px solid #bbbbbb;
     border-bottom: 1px solid #aaaaaa;
+    display: flex;              /* Enable flexbox */
+    justify-content: center;    /* Center horizontally */
+    align-items: center;        /* Center vertically */
 }
 
 /* Colors for the gameboard numbers */
+.blank {
+    background-color: #ddd;
+}
+
 .bombcount-1 {
+    background-color: #e2e2e2;
     color: blue;
     font-weight: bold;
     text-align: center;
 }
 .bombcount-2 {
+    background-color: #e2e2e2;
     color: orange;
     font-weight: bold;
     text-align: center;
 }
 .bombcount-3 {
+    background-color: #e2e2e2;
     color: green;
     font-weight: bold;
     text-align: center;
 }
 .bombcount-4 {
+    background-color: #e2e2e2;
     color: red;
     font-weight: bold;
     text-align: center;
+}
+.explode {
+    background-color: red;
 }
